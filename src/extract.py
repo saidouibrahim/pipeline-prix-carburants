@@ -18,5 +18,6 @@ def telecharger_csv() :
     print("Fichier enregistrer : ", chemin)
     return chemin
 
+# si on lance ce fichier directement, exécute telecharger_csv()
 if  __name__ == "__main__" : 
     telecharger_csv()
