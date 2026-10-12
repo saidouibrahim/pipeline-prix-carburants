@@ -51,7 +51,7 @@ print("Après suppression des cases vides :", prix.shape)
 print(prix.head(10))
 
 # traduire les anciens noms de colonnes en noms de carburants lisibles
-noms_carburant = {
+noms_carburants = {
     "gazole_prix": "Gazole",
     "sp95_prix": "SP95",
     "sp98_prix": "SP98",
@@ -60,10 +60,10 @@ noms_carburant = {
     "gplc_prix": "GPLc",
 }
 
-prix["carburant"] = prix ["carburant"].map(noms_carburant)
+prix["carburant"] = prix ["carburant"].map(noms_carburants)
 
 # renomer "id" en "station_id" pour correspondre a la table SQL
-prix  = prix.rename(columns={"id" : "stations_id"})
+prix  = prix.rename(columns={"id" : "station_id"})
 
 print(prix.head(10))
 print(prix["carburant"].value_counts())
