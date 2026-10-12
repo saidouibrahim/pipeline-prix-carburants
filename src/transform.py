@@ -67,3 +67,34 @@ prix  = prix.rename(columns={"id" : "station_id"})
 
 print(prix.head(10))
 print(prix["carburant"].value_counts())
+
+# même travail pour les dates de mise à jour : une ligne par carburant
+colonnes_maj = [
+    "gazole_maj", "sp95_maj", "sp98_maj",
+    "e10_maj", "e85_maj", "gplc_maj",
+]
+
+dates = df[["id"] + colonnes_maj ].melt(
+    id_vars=["id"],
+    var_name="carburant",
+    value_name="date-maj",
+)
+
+# traduire les noms de colonnes de dates en noms de carburants
+noms_dates = {
+    "gazole_maj": "Gazole",
+    "sp95_maj": "SP95",
+    "sp98_maj": "SP98",
+    "e10_maj": "E10",
+    "e85_maj": "E85",
+    "gplc_maj": "GPLc",
+}
+dates["carburant"] = dates["carburant"].map(noms_dates)
+dates = dates.rename(columns={"id": "station_id"})
+
+# relier chaque prix à sa date (même station + même carburant)
+prix = prix.merge(dates, on=["station_id", "carburant"], how= "left")
+
+print("table prix final :" , prix.shape)
+print(prix.head(10))
+
