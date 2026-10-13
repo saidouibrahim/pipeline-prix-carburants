@@ -1,5 +1,5 @@
 import pandas as pd
-
+import sqlite3
 
 #lire le fichier CSV et garde les codes en text pour ne pas perdre les zero
 df = pd.read_csv(
@@ -98,3 +98,20 @@ prix = prix.merge(dates, on=["station_id", "carburant"], how= "left")
 print("table prix final :" , prix.shape)
 print(prix.head(10))
 
+
+# ouvrir la connexion avec la base de données
+connexion = sqlite3.connect("data/carburants.db")
+
+# vider les tables avant de les remplir (pour pouvoir relancer le script sans doublons)
+connexion.execute("DELETE FROM prix")
+connexion.execute("DELETE FROM stations")
+
+# écrire les deux tableaux dans les tables SQL
+stations.to_sql("stations", connexion, if_exists="append", index=False)
+prix.to_sql("prix", connexion, if_exists="append", index=False)
+
+# valider les changements et fermer la connexion
+connexion.commit()
+connexion.close()
+
+print("Données chargées dans la base")
