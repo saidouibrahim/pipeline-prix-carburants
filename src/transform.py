@@ -77,7 +77,7 @@ colonnes_maj = [
 dates = df[["id"] + colonnes_maj ].melt(
     id_vars=["id"],
     var_name="carburant",
-    value_name="date-maj",
+    value_name="date_maj",
 )
 
 # traduire les noms de colonnes de dates en noms de carburants
